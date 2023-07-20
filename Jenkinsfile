@@ -1,11 +1,16 @@
 pipeline {
     agent any
     
-    stages {
-        stage('Ejemplo') {
+     stage('Construir imagen') {
             steps {
-                echo 'Hola'
+                script {
+                    def imageName = 'app-php-sergio'
+                    def imageTag = 'latest'
+                    def dockerfile = 'docker/Dockerfile'
+                    
+                    // Construir la imagen de Docker
+                    docker.build("${imageName}:${imageTag}", "-f ${dockerfile} .")
+                }
             }
         }
-    }
 }
