@@ -4,11 +4,14 @@ pipeline {
         stage('Construir imagen') {
             steps {
                 script {
-                    def imageName = 'app-php-sergio'
-                    def imageTag = 'latest'
-                    def dockerfile = 'docker/Dockerfile'
+                    def branchName = "${env.BRANCH_NAME}".replaceAll('/', '-')
+                    def buildNumber = "${env.BUILD_NUMBER}"
+                    def imageName = "${branchName}-build-${buildNumber}"
+                    def dockerfilePath = 'docker/Dockerfile'
                     
-                    docker.build("${imageName}:${imageTag}", "-f ${dockerfile} .")
+                    
+                    sh "docker build -t ${imageName} -f ${dockerfilePath} ."
+
                 }
             }
         }
