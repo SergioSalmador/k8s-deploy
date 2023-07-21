@@ -4,13 +4,15 @@ pipeline {
         stage('Construir imagen') {
             steps {
                 script {
+
+
                     def branchName = "${env.BRANCH_NAME}".replaceAll('/', '-')
-                    def buildNumber = "${env.BUILD_NUMBER}"
-                    def imageName = "${branchName}-build-${buildNumber}"
-                    def dockerfilePath = 'docker/Dockerfile'
+                    def imageName = '${branchName}-php-${buildNumber}'
+                    def imageTag = 'latest'
+                    def dockerfile = 'docker/Dockerfile'
                     
-                    
-                    sh "docker build -t ${imageName} -f ${dockerfilePath} ."
+                    // Construir la imagen de Docker
+                    docker.build("${imageName}:${imageTag}", "-f ${dockerfile} .")
 
                 }
             }
